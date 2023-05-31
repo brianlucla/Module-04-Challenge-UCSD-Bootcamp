@@ -1,9 +1,36 @@
-// timer function
+// timer function setup
 
-var timer = document.querySelector("time-tracker");
-var time = 
+var timerEl = document.getElementById("time-tracker");
+var time; 
+var timeInterval;
 
-// set questions
+// score tracker setup
+var scoreEl = document.getElementById("score-tracker");
+var score = 0;
+
+// buttons setup
+
+var startButtonEl = document.getElementById("start-button");
+
+// quiz state tracker set up
+var gameBool = true;
+var gameTrack = 0;
+
+// hide elements on quiz start setup
+
+var pEl = document.querySelector("p");
+
+// reveal elements on quiz end
+
+var submitEl = document.getElementById("quiz-end");
+
+// questions setup
+
+var questionEl = document.getElementById("title-question");
+var answer1El = document.getElementById("answer1");
+var answer2El = document.getElementById("answer2");
+var answer3El = document.getElementById("answer3");
+var answer4El = document.getElementById("answer4");
 
 var questions = [
   {
@@ -40,6 +67,147 @@ var questions = [
   },
 ];
 
-setInterval(function() {
+// set time according to number of questions
+time = questions.length * 15;
 
-}, 1000);
+function timerLogic(){
+  time--;
+  timerEl.textContent = time;
+}
+
+// start game
+
+function startQuiz(){
+  // display setup
+  pEl.style.display = "none";
+  startButtonEl.style.display = "none";
+
+  questionEl.textContent = questions[0].title;
+  answer1El.textContent = questions[0].choices[0];
+  answer2El.textContent = questions[0].choices[1];
+  answer3El.textContent = questions[0].choices[2];
+  answer4El.textContent = questions[0].choices[3];
+
+  answer1El.style.display = "inline-block";
+  answer2El.style.display = "inline-block";
+  answer3El.style.display = "inline-block";
+  answer4El.style.display = "inline-block";
+
+  timeInterval = setInterval(timerLogic, 1000);
+}
+
+
+// event listeners for quiz
+
+function updateQuestions(index){
+  questionEl.textContent = questions[index].title;
+  answer1El.textContent = questions[index].choices[0];
+  answer2El.textContent = questions[index].choices[1];
+  answer3El.textContent = questions[index].choices[2];
+  answer4El.textContent = questions[index].choices[3];
+}
+
+startButtonEl.addEventListener("click", function () {
+  startQuiz();
+});
+
+
+answer1El.addEventListener("click", function(){
+  if (gameTrack < questions.length) {
+    if (answer1El.textContent === questions[gameTrack].answer) {
+      score += 100;
+    } else {
+      score -= 100;
+      time -= 15;
+      if (time < 0) {
+        time = 0;
+        gameEnd();
+        clearInterval(timeInterval);
+      }
+    }
+    gameTrack++;
+    updateQuestions(gameTrack);
+  } else {
+    gameEnd();
+    clearInterval(timeInterval);
+  } 
+});
+
+answer2El.addEventListener("click", function () {
+  if (gameTrack < questions.length) {
+    if (answer2El.textContent === questions[gameTrack].answer) {
+      score += 100;
+    } else {
+      score -= 100;
+      time -= 15;
+      if (time < 0) {
+        time = 0;
+        gameEnd();
+        clearInterval(timeInterval);
+      }
+    }
+    gameTrack++;
+    updateQuestions(gameTrack);
+  } else {
+    gameEnd();
+    clearInterval(timeInterval);
+  }
+});
+
+answer3El.addEventListener("click", function () {
+  if (gameTrack < questions.length) {
+    if (answer3El.textContent === questions[gameTrack].answer) {
+      score += 100;
+    } else {
+      score -= 100;
+      time -= 15;
+      if (time < 0) {
+        time = 0;
+        gameEnd();
+        clearInterval(timeInterval);
+      }
+    }
+    gameTrack++;
+    updateQuestions(gameTrack);
+  } else {
+    gameEnd();
+    clearInterval(timeInterval);
+  }
+});
+
+answer4El.addEventListener("click", function () {
+  if (gameTrack < questions.length) {
+    if (answer4El.textContent === questions[gameTrack].answer) {
+      score += 100;
+    } else {
+      score -= 100;
+      time -= 15;
+      if (time < 0) {
+        time = 0;
+        gameEnd();
+        clearInterval(timeInterval);
+      }
+    }
+    gameTrack++;
+    updateQuestions(gameTrack);
+  } else {
+    gameEnd();
+    clearInterval(timeInterval);
+  }
+});
+
+// function to check if quiz is finished
+
+function gameEnd(){
+  questionEl.textContent = "All done!";
+  pEl.textContent = "Your final score is: " + score;
+  pEl.style.display = "block";
+  answer1El.style.display= "none";
+  answer2El.style.display = "none";
+  answer3El.style.display = "none";
+  answer4El.style.display = "none";
+  submitEl.style.display = "flex";
+  submitEl.style.flexDirection = "row";
+  submitEl.style.justifyContent = "space-between";
+  submitEl.style.alignItems = "center";
+}

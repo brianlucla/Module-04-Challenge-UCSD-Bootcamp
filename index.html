@@ -4,36 +4,45 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" src="./assets/css/style.css">
+  <link rel="stylesheet" href="./assets/css/reset.css">
+  <link rel="stylesheet" href ="./assets/css/style.css">
   <title>JavaScript Quiz</title>
 </head>
+
 <header>
   <div id="header-left">
     <a href="./highscore.html">View High Scores</a>
   </div>
 
   <div id="header-right">
-    <span id="time-tracker"></span>
+    <span id="time-tracker">Time: 0</span>
   </div>
 </header>
+
 <body>
   <main>
-    <section>
+    <section id="question-container">
       <h1 id="title-question">
         Coding Quiz Challenge
       </h1>
       <p>Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will
       penalize your score/time by 15 seconds!</p>
+      <button id="start-button">Start Quiz!</button>
       <div id="answer-container">
         <!--enter text with JavaScript-->
-        <card id="answer1"></card>
-        <card id="answer2"></card>
-        <card id="answer3"></card>
-        <card id="answer4"></card>
+        <button id="answer1"></button>
+        <button id="answer2"></button>
+        <button id="answer3"></button>
+        <button id="answer4"></button>
       </div>
-      <p id="score-tracker"></p>
+      <span id="score-tracker"></span>
+    </section>
+    <section id="quiz-end">
+      <p>Please enter your initials: </p>
+      <input type="text" name="initials" id="initial-input"/>
+      <button id="submit-button">Submit</button>
     </section>
   </main>
 </body>
-<script src="script.js"></script>
+<script src="./assets/js/game_setup.js"></script>
 </html>
