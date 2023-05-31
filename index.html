@@ -4,23 +4,28 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" src="./assets/css/style.css">
   <title>JavaScript Quiz</title>
 </head>
+<header>
+  <div id="header-left">
+    <a href="./highscore.html">View High Scores</a>
+  </div>
+
+  <div id="header-right">
+    <span id="time-tracker"></span>
+  </div>
+</header>
 <body>
-  <header>
-    <div id="header-left">
-      <a href="./highscore.html"></a>
-    </div>
-
-    <div id="header-right">
-
-    </div>
-  </header>
   <main>
     <section>
-      <h1 id="question"></h1>
+      <h1 id="title-question">
+        Coding Quiz Challenge
+      </h1>
+      <p>Try to answer the following code-related questions within the time limit. Keep in mind that incorrect answers will
+      penalize your score/time by 15 seconds!</p>
       <div id="answer-container">
-        <!--maybe make with javascript-->
+        <!--enter text with JavaScript-->
         <card id="answer1"></card>
         <card id="answer2"></card>
         <card id="answer3"></card>
@@ -29,4 +34,5 @@
     </section>
   </main>
 </body>
+<script src="script.js"></script>
 </html>
