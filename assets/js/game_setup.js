@@ -1,7 +1,7 @@
 // timer function setup
 
 var timerEl = document.getElementById("time-tracker");
-var time; 
+var time;
 var timeInterval;
 
 // score tracker setup
@@ -11,8 +11,10 @@ var score = 0;
 // buttons setup
 
 var startButtonEl = document.getElementById("start-button");
+var submitButtonEl = document.getElementById("submit-button");
 
 // quiz state tracker set up
+
 var gameBool = true;
 var gameTrack = 0;
 
@@ -23,6 +25,10 @@ var pEl = document.querySelector("p");
 // reveal elements on quiz end
 
 var submitEl = document.getElementById("quiz-end");
+
+// initials save element
+
+var initialsEl = document.getElementById("initial-input");
 
 // questions setup
 
@@ -70,14 +76,19 @@ var questions = [
 // set time according to number of questions
 time = questions.length * 15;
 
-function timerLogic(){
+function timerLogic() {
   time--;
   timerEl.textContent = time;
+  if (time <= 0) {
+    time = 0;
+    clearInterval(timeInterval);
+    gameEnd();
+  }
 }
 
 // start game
 
-function startQuiz(){
+function startQuiz() {
   // display setup
   pEl.style.display = "none";
   startButtonEl.style.display = "none";
@@ -96,10 +107,9 @@ function startQuiz(){
   timeInterval = setInterval(timerLogic, 1000);
 }
 
-
 // event listeners for quiz
 
-function updateQuestions(index){
+function updateQuestions(index) {
   questionEl.textContent = questions[index].title;
   answer1El.textContent = questions[index].choices[0];
   answer2El.textContent = questions[index].choices[1];
@@ -111,18 +121,16 @@ startButtonEl.addEventListener("click", function () {
   startQuiz();
 });
 
-
-answer1El.addEventListener("click", function(){
-  if (gameTrack < questions.length) {
+answer1El.addEventListener("click", function () {
+  if (gameTrack < questions.length - 1) {
     if (answer1El.textContent === questions[gameTrack].answer) {
       score += 100;
     } else {
       score -= 100;
       time -= 15;
-      if (time < 0) {
-        time = 0;
-        gameEnd();
+      if (time < 15) {
         clearInterval(timeInterval);
+        gameEnd();
       }
     }
     gameTrack++;
@@ -130,24 +138,24 @@ answer1El.addEventListener("click", function(){
   } else {
     gameEnd();
     clearInterval(timeInterval);
-  } 
+  }
 });
 
 answer2El.addEventListener("click", function () {
-  if (gameTrack < questions.length) {
+  if (gameTrack < questions.length - 1) {
     if (answer2El.textContent === questions[gameTrack].answer) {
       score += 100;
     } else {
       score -= 100;
       time -= 15;
-      if (time < 0) {
-        time = 0;
-        gameEnd();
+      if (time < 15) {
         clearInterval(timeInterval);
+        gameEnd();
       }
+      gameTrack++;
+      console.log(gameTrack);
+      updateQuestions(gameTrack);
     }
-    gameTrack++;
-    updateQuestions(gameTrack);
   } else {
     gameEnd();
     clearInterval(timeInterval);
@@ -155,20 +163,21 @@ answer2El.addEventListener("click", function () {
 });
 
 answer3El.addEventListener("click", function () {
-  if (gameTrack < questions.length) {
+  if (gameTrack < questions.length - 1) {
     if (answer3El.textContent === questions[gameTrack].answer) {
       score += 100;
+      gameTrack++;
+      updateQuestions(gameTrack);
     } else {
       score -= 100;
       time -= 15;
-      if (time < 0) {
-        time = 0;
-        gameEnd();
+      if (time < 15) {
         clearInterval(timeInterval);
+        gameEnd();
       }
+      gameTrack++;
+      updateQuestions(gameTrack);
     }
-    gameTrack++;
-    updateQuestions(gameTrack);
   } else {
     gameEnd();
     clearInterval(timeInterval);
@@ -176,14 +185,13 @@ answer3El.addEventListener("click", function () {
 });
 
 answer4El.addEventListener("click", function () {
-  if (gameTrack < questions.length) {
+  if (gameTrack < questions.length - 1) {
     if (answer4El.textContent === questions[gameTrack].answer) {
       score += 100;
     } else {
       score -= 100;
       time -= 15;
-      if (time < 0) {
-        time = 0;
+      if (time < 15) {
         gameEnd();
         clearInterval(timeInterval);
       }
@@ -198,11 +206,12 @@ answer4El.addEventListener("click", function () {
 
 // function to check if quiz is finished
 
-function gameEnd(){
+function gameEnd() {
+  timerEl.textContent = 0;
   questionEl.textContent = "All done!";
   pEl.textContent = "Your final score is: " + score;
   pEl.style.display = "block";
-  answer1El.style.display= "none";
+  answer1El.style.display = "none";
   answer2El.style.display = "none";
   answer3El.style.display = "none";
   answer4El.style.display = "none";
@@ -211,3 +220,28 @@ function gameEnd(){
   submitEl.style.justifyContent = "space-between";
   submitEl.style.alignItems = "center";
 }
+
+// function to save scores
+function saveScores() {
+  var initials = initialsEl.value;
+  if (initials !== "") {
+    var scores = JSON.parse(window.localStorage.getItem('scores')) || [];
+
+    var quizObj = {
+      userInitial: initials,
+      userScore: score,
+    };
+
+    scores.push(quizObj);
+    window.localStorage.setItem('scores', JSON.stringify(scores));
+
+    window.location.href = "scores.html";
+  }
+}
+
+// event listeners for submitting score
+
+submitButtonEl.addEventListener("click", function () {
+  saveScores();
+});
+

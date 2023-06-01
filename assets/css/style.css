@@ -126,3 +126,44 @@ p{
   -o-border-radius:20px;
 }
 
+#backButton{
+  background-color: purple;
+  color:white;
+  font-size:20px;
+  border-radius:30px;
+  -webkit-border-radius:30px;
+  -moz-border-radius:30px;
+  -ms-border-radius:30px;
+  -o-border-radius:30px;
+}
+
+#mainContainer{
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#appendList{
+  background-color:lightskyblue;
+  padding:40px;
+  width:200px;
+  text-align:center;
+  border:solid 2px black; 
+  border-radius:30px;
+  -webkit-border-radius:30px;
+  -moz-border-radius:30px;
+  -ms-border-radius:30px;
+  -o-border-radius:30px;
+}
+
+#clear-scores{
+  background-color: purple;
+  color:white;
+  font-size:20px;
+  border-radius:30px;
+  -webkit-border-radius:30px;
+  -moz-border-radius:30px;
+  -ms-border-radius:30px;
+  -o-border-radius:30px;
+}
+
